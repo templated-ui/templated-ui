@@ -16,20 +16,20 @@ export const storeContext = createContext<IStore<any>>({
 });
 export class CustomStoreManager<S> {
 
-    constructor(public store: IStore<S>) {
+    constructor(protected store: IStore<S>) {
     }
-    public dispatch(action: string, payload: any) {
+    protected dispatch(action: string, payload: any) {
         this.store.dispatch({ action, payload });
     }
-    public bindDispatch(action: string, payload?: any) {
+    protected bindDispatch(action: string, payload?: any) {
         return this.store.dispatch.bind(this, action, payload);
     }
 
 }
 interface StoreManagerClass<T> {
-    new(p: IStore<any>): CustomStoreManager<T>;
+    new(p: IStore<any>):  T ;
 }
-export function useStoreManager<T extends CustomStoreManager<any>>(
+export function useStoreManager<T >(
     aclass: StoreManagerClass<T>): T {
     const classType = aclass as any;
     const manager = new aclass(useContext(storeContext)) as any;
