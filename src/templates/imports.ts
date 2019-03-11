@@ -1,1 +1,1 @@
-import './dev-error';
+import '../core/dev-error-template';
