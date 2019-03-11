@@ -27,19 +27,17 @@ export class CustomStoreManager<S> {
 
 }
 interface StoreManagerClass<T> {
-    new(p: IStore<any>):  T ;
+    new(p: IStore<any>): T;
 }
-export function useStoreManager<T >(
-    aclass: StoreManagerClass<T>): T {
+export function useEventManager<T>(
+    aclass: StoreManagerClass<T>) {
     const classType = aclass as any;
-    const manager = new aclass(useContext(storeContext)) as any;
-    const prototype = classType.prototype;
-    for (const key in prototype) {
-        if (prototype[key] instanceof Function)
-            manager[key] = prototype[key].bind(manager);
-    }
+    const uiManager = new aclass(useContext(storeContext)) as any;
+    return function (key: keyof T, ...args: any[]): void {
+        const member = uiManager[key];
+        if (member instanceof Function) return member.bind(uiManager  ,...args);
 
-    return manager;
+    } ;
 }
 export function useStore<S>(reducer: Reducer<S, Action<any>>): IStore<S> {
     const [state, dispatch] = useReducer<any>(reducer, null as any);
