@@ -23,7 +23,7 @@ export function registerTemplate<T>(key: string, componentType: React.ComponentT
 export function registerReducer<S>(key: string, reducer: React.Reducer<S, Action<any>>) {
     Object.assign(predefines, { [`reducer:${key}`]: reducer })
 }
-export function craftLogic<S>(base: string, ...reducers: Array<Reducer<S, Action<any>>>):
+export function useCraftedLogic<S>(base: string, ...reducers: Array<Reducer<S, Action<any>>>):
     Reducer<S, Action<any>> {
     const key = `reducer:${base}`;
     const baseReducer = predefines[key];
