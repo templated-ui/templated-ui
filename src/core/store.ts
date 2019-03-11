@@ -31,13 +31,12 @@ interface StoreManagerClass<T> {
 }
 export function useEventManager<T>(
     aclass: StoreManagerClass<T>) {
-    const classType = aclass as any;
     const uiManager = new aclass(useContext(storeContext)) as any;
     return function (key: keyof T, ...args: any[]): void {
         const member = uiManager[key];
-        if (member instanceof Function) return member.bind(uiManager  ,...args);
-
-    } ;
+        if (member instanceof Function) return member.bind(uiManager, ...args);
+        return member;
+    };
 }
 export function useStore<S>(reducer: Reducer<S, Action<any>>): IStore<S> {
     const [state, dispatch] = useReducer<any>(reducer, null as any);
