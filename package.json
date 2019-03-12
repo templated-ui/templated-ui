@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack  --mode  production --optimize-minimize  ",
+    "build": "webpack  --env production --mode  production --optimize-minimize  ",
     "start": "webpack --watch --mode development",
     "tsc":"tsc --declaration  src/exports.ts"
   },
