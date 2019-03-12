@@ -1,5 +1,5 @@
-import { CustomStoreManager, Action, useEventManager, IStore } from "../core/store";
-import { ITemplateProps, registerTemplate, registerReducer } from "../core/templated-ui";
+ 
+import { ITemplateProps, registerTemplate, registerReducer, useEventManager ,CustomStoreManager, Action} from '@templated-ui/core';
 const INITIALIZE = 'INITIALIZE';
 interface IState {
     type: string;
@@ -19,7 +19,7 @@ function reducer(prevState: IState, action: Action<any>): IState {
 }
 function Template(p: ITemplateProps<IState>) {
     const events = useEventManager(StoreManager);
-     
+
     return <></>
 }
 

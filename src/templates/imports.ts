@@ -1,1 +1,1 @@
-import '../core/dev-error-template';
+import './single-view';
