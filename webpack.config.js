@@ -1,9 +1,9 @@
 module.exports = {
     optimization: {
-        namedChunks:true,
+        namedChunks: true,
         runtimeChunk: "single",
-        splitChunks:   {
-            
+        splitChunks: {
+
             cacheGroups: {
                 commons: {
                     test: /[\\/]node_modules[\\/]/,
@@ -22,9 +22,9 @@ module.exports = {
         filename: "[name].js"
     },
     entry: {
-        core: './src/core/exports.ts',
+        core: ['./src/core/exports.ts','./src/umd.ts'],
         templates: './src/templates/imports.ts',
-        vendors:['react']
+        vendors: './src/vendors.ts'
 
     },
     module: {
@@ -35,5 +35,9 @@ module.exports = {
                 exclude: /node_modules/
             }
         ]
+    },
+    externals: {
+        '@templated-ui/core': 'TemplatedUiCore' 
+
     }
 }
