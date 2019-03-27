@@ -1,40 +1,33 @@
 import { useContext } from "react";
-import { storeContext } from "./store";
-import { JSONSchema6 } from 'json-schema';
-
-export type SchemaDefination = any;
 
 type Unpack<A> = A extends Array<infer E> ? E : A
+type SchemaValues = 'number' | 'string' | 'boolean' | 'array' | 'object';
+type Schema<T extends { [P in TKey]: SchemaValues },
+    TKey extends keyof T=keyof T> = { [P in TKey]: SchemaValues };
 
-
-
-interface IOptionsForBindingSource {
-    master?: IBindingSource<any>;
-
-}
 interface IBindingSource<T> {
-    (key: keyof Unpack<T>): any;
+    (key: keyof T): any;
     sampleData: T;
-    options: IOptionsForBindingSource;
+    selectedIndex: number;
+    getData(): { [P in (keyof T)]: any };
+    nested<TDto extends { [P in TKey]: SchemaValues }, TKey extends keyof TDto, arrayKey extends keyof T>(arrayKey: arrayKey, sampleDto: Schema<TDto>): IBindingSource<TDto>
 }
 
-export function openBindingSource<T>
-    (sampleData: T, options?: IOptionsForBindingSource): IBindingSource<T> {
-    options = { ...options } as IOptionsForBindingSource;
+export function openBindingSource<T extends Schema<T>>
+    (sampleData: T): IBindingSource<T> {
     function Field() {
 
     }
     return Object.assign(function (key: keyof T) {
-        const store = useContext(storeContext);
 
-    }, { options, sampleData, Field }) as any;
+    }, { sampleData, Field }) as any;
 }
-const a = ({
-    ss: {
-        type: 'string',
-        default: true
-    }, x: 'string',
-    xx: { ff: 'string', f: 2 }
+
+
+
+const f = openBindingSource({
+    d: 'string',
+    dd: 'object',
+    dx: 'array'
 });
-
-
+const fx = f.nested('dd', { d: 'number' });

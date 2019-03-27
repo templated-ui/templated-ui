@@ -1,34 +1,50 @@
-import React, { Reducer } from "react";
-import { IStore, storeContext, Action } from "./store";
+import React, { Reducer, useContext, Context } from "react";
 
-export interface ITemplateProps<S> {
-    store: IStore<S>;
-    children?: React.ReactNode;
+interface IProps<V,M>{
+views:V;
+model:M;
 }
-export function TemplatedUI<S>(p: ITemplateProps<S>): JSX.Element | undefined {
-    const state: any = p.store && p.store.getState();
-    const { type = '' } = state || {};
-    if (!type)
-        return React.createElement('div', { className: 'template-not-defined' },
-            'please use predefined Reducer in `reducers`');
-    return React.createElement(storeContext.Provider,
-        { value: p.store },
-        React.createElement(predefines[`template:${type}`], p, p.children));
+export interface IPredefinedConfig<M, V, TContext> {
+    componentType: React.ComponentType<IProps<V,M>>;
+    context: Context<TContext>;
+    predefinedViews: V;
+}
+interface IConfig<M, V, TContext> {
+    model: M;
+    views: V;
+    template: IPredefinedConfig<M, V, TContext>;
 }
 
-export const predefines: any = {};
-export function registerTemplate<T>(key: string, componentType: React.ComponentType<T>) {
-    Object.assign(predefines, { [`template:${key}`]: componentType })
+export function templatedUI<M, V, TContext>(config: IConfig<M, V, TContext>) {
+    const { model, template } = config;
+    const views = { ...template.predefinedViews, ...config.views };
+    return React.createElement(template.componentType, { views, model });
+
 }
-export function registerReducer<S>(key: string, reducer: React.Reducer<S, Action<any>>) {
-    Object.assign(predefines, { [`reducer:${key}`]: reducer })
+interface IViews {
+    singleViewContent: Function;
 }
-export function useCraftedLogic<S>(base: string, ...reducers: Array<Reducer<S, Action<any>>>):
-    Reducer<S, Action<any>> {
-    const key = `reducer:${base}`;
-    const baseReducer = predefines[key];
-    const fns = [baseReducer, ...reducers.filter(fn => fn instanceof Function)];
-    return function (state, action) {
-        return fns.reduce((s,fn)=>fn(s,action),state);
-    }
+interface ICrudContext{
+    formData:any;
+    bindingSource:any;
+    serverApi:any;
+    model:any;
 }
+const crudTemplate: IPredefinedConfig<any, IViews,ICrudContext >  = null as unknown as any;
+
+const template = crudTemplate;
+templatedUI({
+    model: {
+        serverApi: null,
+        reducer: null,
+        routes: {},
+        texts: {}
+    },
+    views: {
+        singleViewContent() {
+            const { model, serverApi } = useContext(template.context);
+            // Return Virtual DOM
+        }
+    },
+    template
+})

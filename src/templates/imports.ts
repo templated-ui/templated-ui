@@ -1,1 +1,1 @@
-import './single-view';
+import './crud';
