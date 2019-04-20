@@ -1,18 +1,21 @@
 
 import { IPredefinedConfig } from '../core/exports';
-import { useContext, useState, createContext } from 'react';
+import { useContext, useState, createContext, createElement } from 'react';
 
 interface IModel {
     serverApi: any;
+}
+interface IPropsForViews {
+    context: IContext<any>;
 }
 interface IViews {
     listViewHeader(): JSX.Element;
     listViewContent(): JSX.Element;
     listViewFooter(): JSX.Element;
 
-    singleViewHeader(): JSX.Element;
-    singleViewContent(): JSX.Element;
-    singleViewFooter(): JSX.Element;
+    singleViewHeader(p: IPropsForViews): JSX.Element;
+    singleViewContent(p: IPropsForViews): JSX.Element;
+    singleViewFooter(p: IPropsForViews): JSX.Element;
 }
 interface IContext<TSchema> {
     model: IModel;
@@ -30,10 +33,12 @@ const crudTemplate: IPredefinedConfig<IModel, IViews, IContext<any>> = {
     context: createContext<IContext<any>>(null as any),
     componentType(p) {
         const [state, setState] = useState();
-        const { singleViewContent } = p.views;
         const contextValue: IContext<any> = { state, model: p.model, serverApi: p.model.serverApi }
+        const propsForChild = { context: contextValue };
         return <crudTemplate.context.Provider value={contextValue}>
-            {singleViewContent()}
+            {createElement(p.views.singleViewHeader, propsForChild)}
+            {createElement(p.views.singleViewContent, propsForChild)}
+            {createElement(p.views.singleViewFooter, propsForChild)}
         </crudTemplate.context.Provider>
     }
 }
