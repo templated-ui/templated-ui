@@ -1,0 +1,1 @@
+C:/Work/data-lookup/src/index.d.ts

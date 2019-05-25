@@ -1,0 +1,1 @@
+http-server --push-state -p 8020

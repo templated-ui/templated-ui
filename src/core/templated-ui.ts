@@ -1,29 +1,35 @@
-import { createElement } from "react";
-import { IConfigForTemplatedUI } from 'templated-ui'
+import { createElement, useState } from "react";
+import { IPredefineForTemplatedUI } from 'templated-ui/core'
+import { BaseContext } from "./context";
 
-
-export function templatedUI<M, V, TContext>(config: IConfigForTemplatedUI<M, V, TContext>) {
-    const { model, template } = config;
-    const views = { ...template.predefinedViews, ...config.views };
-    return createElement(template.componentType, { views, model });
-
+export function templatedUI<TPredefine extends IPredefineForTemplatedUI>
+  (predefine: TPredefine, input: TPredefine['input']): TPredefine['output'] {
+  const props = { ...predefine.defaultInput, ...input };
+  let [contextValue, setContextValue] = useState();
+  if (!contextValue) {
+    contextValue = new BaseContext();
+    setContextValue(contextValue);
+  }
+  const content = createElement(predefine.componentType, props);
+  return createElement(predefine.context.Provider, { value: contextValue }, content);
 }
+Object.assign(window, { TemplatedUiCore: { templatedUI } });
   /**
 const crudTemplate: IPredefinedConfig<any, IViews, ICrudContext> = null as unknown as any;
 
 const template = crudTemplate;
 templatedUI({
 model: {
-    serverApi: null,
-    reducer: null,
-    routes: {},
-    texts: {}
+serverApi: null,
+reducer: null,
+routes: {},
+texts: {}
 },
 views: {
-    singleViewContent() {
-        const { model, serverApi } = useContext(template.context);
-        // Return Virtual DOM
-    }
+singleViewContent() {
+const { model, serverApi } = useContext(template.context);
+// Return Virtual DOM
+}
 },
 template
 })
