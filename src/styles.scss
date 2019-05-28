@@ -1,0 +1,13 @@
+$fa-font-path: "/bundle";
+@import "~bulma/bulma";
+@import "~vazir-font/dist/font-face";
+@import "~material-design-icons/iconfont/material-icons";
+@import "~font-awesome/scss/font-awesome.scss";
+@import "~react-json-inspector/json-inspector";
+
+@import "~react-md/src/scss/react-md";
+@include react-md-everything;
+
+@import "./styles/dev-mode";
+@import "./styles/material-design-overrides";
+@import "./styles/font-overrides";

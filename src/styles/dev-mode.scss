@@ -1,0 +1,77 @@
+#root-dev {
+  display: none;
+}
+html.dev-mode {
+  body > * {
+    display: none;
+  }
+  #root-dev {
+    display: block !important;
+  }
+}
+#root-dev {
+  direction: ltr !important;
+  .hero-card {
+    margin-top: 1rem;
+  }
+  .md-text-field--margin {
+    margin: 0;
+  }
+  th {
+    text-align: right;
+    display: flex;
+    justify-items: flex-end;
+    min-height: 30px;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 1rem;
+ 
+  }
+
+  .hero-media {
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23dddddd' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+    padding: 0;
+    min-height: 10rem;
+    padding: 1rem;
+    box-shadow: inset 0px -4px 4px 0px #ccc;
+    border-bottom: 1px solid #aaa;
+    position: relative;
+    overflow: visible;
+    .close-btn {
+      position: absolute;
+
+      right: 1rem;
+      top: 1rem;
+    }
+    .ports {
+      width: 400px;
+    }
+  }
+   
+  .json-inspector {
+      overflow-x: hidden;
+      min-height: 6rem;
+  }
+  .json-inspector__toolbar{
+    display: flex;
+    max-height: 0;
+    overflow: visible;
+    justify-content: flex-end;
+    input{
+        min-height: 2rem;
+        padding:0.3rem 1rem;
+        border-radius: 5px;
+        z-index: 10000;
+        outline:none;
+    }
+  }
+  .output {
+      margin-top:1rem;
+      padding:1rem;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23cccccc' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+    box-shadow: inset 0px 4px 4px 0px #ccc;
+    border-top: 1px solid #aaa;
+  }
+}
